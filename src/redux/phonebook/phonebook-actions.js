@@ -1,14 +1,12 @@
 import { nanoid } from 'nanoid';
-import types from './phonebook-types';
+import { createAction } from '@reduxjs/toolkit';
 
-export const addContact = (name, number) => ({
-  type: types.ADD,
-  payload: { id: nanoid(), name, number },
-});
-
-export const deleteContact = id => ({
-  type: types.DELETE,
-  payload: id,
-});
-
-export const changeFiler = value => ({ type: types.CHANGE_FILTER, payload: value });
+export const addContact = createAction('phonebook/add', (name, number) => ({
+  payload: {
+    id: nanoid(),
+    name,
+    number,
+  },
+}));
+export const deleteContact = createAction('phonebook/delete');
+export const changeFiler = createAction('phonebook/changeFilter');
