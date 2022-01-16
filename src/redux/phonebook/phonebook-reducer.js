@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 import types from './phonebook-types';
-import { load } from '../../services/storage-api';
+// import { load } from '../../services/storage-api';
 
-const contacts = load('contacts');
-const initialItemsState = contacts ? contacts : [];
+// const contacts = load('contacts');
+// const initialItemsState = contacts ? contacts : [];
+const initialItemsState = [];
 const initialFilterState = '';
 
 const itemsReducer = (state = initialItemsState, { type, payload }) => {
@@ -26,6 +27,4 @@ const filterReducer = (state = initialFilterState, { type, payload }) => {
   }
 };
 
-const contactsReducer = combineReducers({ items: itemsReducer, filter: filterReducer });
-
-export default combineReducers({ contacts: contactsReducer });
+export default combineReducers({ items: itemsReducer, filter: filterReducer });
