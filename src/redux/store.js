@@ -1,21 +1,40 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { logger } from 'redux-logger';
-// import throttle from 'lodash.throttle';
+import logger from 'redux-logger';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import contactsReducer from './phonebook/phonebook-reducer';
-// import { save } from '../services/storage-api';
 
-// const STATE_SAVING_DELAY = 1000;
 const isDevelopment = process.env.NODE_ENV === 'development';
-const middleware = isDevelopment ? [...getDefaultMiddleware(), logger] : null;
+const middleware = isDevelopment
+  ? [
+      ...getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
+      logger,
+    ]
+  : null;
 
-const store = configureStore({
-  reducer: { contacts: contactsReducer },
+const contactsPersistConfig = {
+  key: 'contacts',
+  storage,
+  blacklist: ['filter'],
+};
+
+export const store = configureStore({
+  reducer: { contacts: persistReducer(contactsPersistConfig, contactsReducer) },
   devTools: isDevelopment,
   middleware,
 });
 
-// store.subscribe(
-//   throttle(() => save('contacts', store.getState().contacts.items), STATE_SAVING_DELAY),
-// );
-
-export default store;
+export const persistor = persistStore(store);

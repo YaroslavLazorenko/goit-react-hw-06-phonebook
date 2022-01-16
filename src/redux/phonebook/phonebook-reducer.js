@@ -1,10 +1,7 @@
 import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './phonebook-actions';
-// import { load } from '../../services/storage-api';
 
-// const contacts = load('contacts');
-// const initialItemsState = contacts ? contacts : [];
 const initialItemsState = [];
 const initialFilterState = '';
 
