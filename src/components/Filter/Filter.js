@@ -30,7 +30,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleChange: e => dispatch(actions.changeFiler(e.target.value)),
+    handleChange: e => dispatch(actions.changeFilter(e.target.value)),
   };
 };
 

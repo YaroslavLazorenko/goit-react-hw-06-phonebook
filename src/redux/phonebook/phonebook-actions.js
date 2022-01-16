@@ -9,4 +9,4 @@ export const addContact = createAction('phonebook/add', (name, number) => ({
   },
 }));
 export const deleteContact = createAction('phonebook/delete');
-export const changeFiler = createAction('phonebook/changeFilter');
+export const changeFilter = createAction('phonebook/changeFilter');
