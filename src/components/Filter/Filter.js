@@ -1,9 +1,12 @@
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/phonebook/phonebook-actions';
+import { getContactsFilter } from '../../redux/phonebook/phonebook-selectors';
 import s from './Filter.module.css';
 
-const Filter = ({ filterValue, handleChange }) => {
+const Filter = () => {
+  const filterValue = useSelector(getContactsFilter);
+  const dispatch = useDispatch();
+
   return (
     <>
       <p className={s.title}>Find contacts by name</p>
@@ -13,25 +16,10 @@ const Filter = ({ filterValue, handleChange }) => {
         name="filter"
         placeholder="Enter name"
         value={filterValue}
-        onChange={handleChange}
+        onChange={e => dispatch(actions.changeFilter(e.target.value))}
       ></input>
     </>
   );
 };
 
-Filter.propTypes = {
-  filterValue: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-  filterValue: state.contacts.filter,
-});
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleChange: e => dispatch(actions.changeFilter(e.target.value)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;

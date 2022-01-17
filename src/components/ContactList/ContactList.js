@@ -1,9 +1,12 @@
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ContactItem from '../ContactItem';
+import { getContactsItems, getContactsFilter } from '../../redux/phonebook/phonebook-selectors';
 import s from './ContactList.module.css';
 
-const ContactList = ({ contacts, filter }) => {
+const ContactList = () => {
+  const contacts = useSelector(getContactsItems);
+  const filter = useSelector(getContactsFilter);
+
   return (
     <ul className={s.list}>
       {contacts
@@ -15,14 +18,4 @@ const ContactList = ({ contacts, filter }) => {
   );
 };
 
-ContactList.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  filter: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => ({
-  contacts: state.contacts.items,
-  filter: state.contacts.filter,
-});
-
-export default connect(mapStateToProps)(ContactList);
+export default ContactList;

@@ -1,11 +1,13 @@
-import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
 import ContactForm from './components/ContactForm';
 import Filter from './components/Filter';
 import ContactList from './components/ContactList';
+import { getContactsItems } from './redux/phonebook/phonebook-selectors';
 import './App.css';
-import { connect } from 'react-redux';
 
-const App = ({ contacts }) => {
+const App = () => {
+  const contacts = useSelector(getContactsItems);
+
   return (
     <div className="App">
       <h1 className="phonebookTitle">Phonebook</h1>
@@ -18,12 +20,4 @@ const App = ({ contacts }) => {
   );
 };
 
-App.propTypes = {
-  contacts: PropTypes.array.isRequired,
-};
-
-const mapStateToProps = state => ({
-  contacts: state.contacts.items,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

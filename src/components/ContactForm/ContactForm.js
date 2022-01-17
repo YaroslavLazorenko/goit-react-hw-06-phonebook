@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/phonebook/phonebook-actions';
+import { getContactsItems } from '../../redux/phonebook/phonebook-selectors';
 import s from './ContactForm.module.css';
 
 const INITIAL_FORM_LOCAL_STATE = { name: '', number: '' };
 
-const ContactForm = ({ addContact, contacts }) => {
+const ContactForm = () => {
+  const contacts = useSelector(getContactsItems);
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -29,6 +32,8 @@ const ContactForm = ({ addContact, contacts }) => {
         throw new Error('Unknown input field name');
     }
   };
+
+  const addContact = (name, number) => dispatch(actions.addContact(name, number));
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -86,17 +91,4 @@ const ContactForm = ({ addContact, contacts }) => {
   );
 };
 
-ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
-  contacts: PropTypes.array.isRequired,
-};
-
-const mapStateToProps = state => ({ contacts: state.contacts.items });
-
-const mapDispatchToProps = dispatch => {
-  return {
-    addContact: (name, number) => dispatch(actions.addContact(name, number)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default ContactForm;
