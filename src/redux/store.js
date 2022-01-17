@@ -13,14 +13,12 @@ import {
 import storage from 'redux-persist/lib/storage';
 import contactsReducer from './phonebook/phonebook-reducer';
 
-const isDevelopment = process.env.NODE_ENV === 'development';
 const middleware = [
   ...getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
-  isDevelopment && logger,
 ];
 
 const contactsPersistConfig = {
@@ -28,6 +26,8 @@ const contactsPersistConfig = {
   storage,
   blacklist: ['filter'],
 };
+
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 export const store = configureStore({
   reducer: { contacts: persistReducer(contactsPersistConfig, contactsReducer) },
