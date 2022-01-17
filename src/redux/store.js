@@ -14,16 +14,14 @@ import storage from 'redux-persist/lib/storage';
 import contactsReducer from './phonebook/phonebook-reducer';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
-const middleware = isDevelopment
-  ? [
-      ...getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }),
-      logger,
-    ]
-  : null;
+const middleware = [
+  ...getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
+  isDevelopment && logger,
+];
 
 const contactsPersistConfig = {
   key: 'contacts',
